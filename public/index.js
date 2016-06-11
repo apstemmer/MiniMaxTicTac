@@ -1,12 +1,20 @@
 var board = [["","",""],["","",""],["","",""]];
 var str = "";
+var tmove;
+var thinking = false;
 
 lis = document.getElementsByTagName("li");
 
 function check(){
+	var filled = true;
+
 	for(var j=0; j< lis.length; j++)
 	{
-		board[Math.floor(j/3)][j%3] = lis[j].innerHTML; 
+		board[Math.floor(j/3)][j%3] = lis[j].innerHTML;
+		if(lis[j].innerHTML == "")
+		{
+			filled = false;
+		} 
 	}
 	for(var m =0;m < 3; m++)//horizontal checking
 	{
@@ -29,6 +37,8 @@ function check(){
 			&& board[1][1] !== "")
 	{
 		alert(board[1][1] + " wins");
+	}else if(filled){
+		alert("Draw!");
 	}
 
 	console.log(board.toString());
@@ -39,36 +49,51 @@ console.log(lis.length);
 
 for(var i =0; i<lis.length;i++){
 	lis[i].addEventListener("click", function(e){
-		if(e.currentTarget.innerHTML == "")
+		if(e.currentTarget.innerHTML == "" && thinking == false)
 		{
-			if(turn%2 == 0){
-				e.currentTarget.innerHTML = "X";
-			}
-			else{
-				e.currentTarget.innerHTML = "O";
-			}
+			e.currentTarget.innerHTML = "O";
 			ajx();
-			alert(str);
-			turn++;
-			
 		}
-
-		check();
+		
+		
+		
 	},false);
 }
 
 function ajx(){
+	thinking = true;
 	xhttp = new XMLHttpRequest();
 	xhttp.open("POST","http://127.0.0.1:8080/ajax", true);
 	xhttp.setRequestHeader("content-type","application/x-www-form-urlencoded")
 	xhttp.onreadystatechange = function(){
+		//alert(xhttp.readyState);
 		if (xhttp.readyState == 4 && xhttp.status == 200)
 		{
-			str = xhttp.responseText;
+			tmove = JSON.parse(xhttp.responseText);
+			console.log(tmove);
+			console.log("nempty");
+			if(tmove[2] == 0 || tmove[0] == 50)//no possible wins for X
+			{
+				alert("Draw!");
+				return;
+			}
+			if(lis[tmove[0]*3 + tmove[1]].innerHTML == "")
+			{
+				console.log("empty");
+				lis[tmove[0]*3 + tmove[1]].innerHTML = "X";
+			}
+			
+			
+			check();
+			thinking = false;
 		}
 		else if(xhttp.status !== 200){
 			alert("AJAX failed:" + xhttp.status );
 		}
+	}
+	for(var j=0; j< lis.length; j++)
+	{
+		board[Math.floor(j/3)][j%3] = lis[j].innerHTML; 
 	}
 	xhttp.send("b="+JSON.stringify(board));
 }

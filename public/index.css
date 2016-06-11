@@ -22,7 +22,12 @@ ul{
 	list-style-type: none;
 }
 
+.g{
+	background-color: #cccccc;
+}
+
 li{
+	font-family: sans-serif;
 	width: 33.333333%;
 	height: 100%;
 	margin:0;
@@ -31,6 +36,7 @@ li{
 	display: flex;
 	justify-content: center; /* align horizontal */
 	align-items: center; /* align vertical */
-	color: yellow;
+	color: #3b3131;
 	font-size: 60px;
 }
+
