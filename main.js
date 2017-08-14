@@ -10,7 +10,7 @@ var app = express();
 function minimax(board, rdepth){
 	//console.log("called");
 	var rdepth = typeof rdepth !== 'undefined' ?  rdepth : 1;
-	var filled = true; 
+	var filled = true;
 	var score = 0;
 	var xs = 0;
 	var os = 0;
@@ -60,7 +60,7 @@ function minimax(board, rdepth){
 			}
 		}
 
-		if((board[0][0] == board[1][1] && board[2][2] == board[0][0]) 
+		if((board[0][0] == board[1][1] && board[2][2] == board[0][0])
 			|| (board[2][0] == board[1][1] && board[0][2] == board[1][1]))
 		{
 			//console.log("diag");
@@ -83,12 +83,12 @@ function minimax(board, rdepth){
 	else if(filled == false){
 		//console.log(board);
 		for(var k = 0; k < 3; k++){
-			
+
 			for(var l = 0; l < 3; l++)
 			{
 				var tmp = JSON.parse(JSON.stringify(board));
 				var dep = xs + os;
-				
+
 				if(board[k][l] == ""){
 					if(xs > os){
 						tmp[k][l] = "O";
@@ -96,9 +96,9 @@ function minimax(board, rdepth){
 						tmp[k][l] = "X";
 					}
 					if(dep == 1){
-					//console.log("k:"+ k +" l:"+l + "\t" + tmp +"\t"+ board);	
+					//console.log("k:"+ k +" l:"+l + "\t" + tmp +"\t"+ board);
 					}
-					
+
 					score += minimax(tmp, rdepth + 1);
 				}
 			}
@@ -107,7 +107,7 @@ function minimax(board, rdepth){
 	}
 }
 
-function move(board){
+function move(board, callback){
 	var pts = 0;
 	var bmove =[50,50];
 	for(var i = 0; i < 3; i++)
@@ -130,7 +130,7 @@ function move(board){
 		}
 	}
 	console.log(pts);
-	return bmove;
+	callback(bmove);
 
 }
 
@@ -144,8 +144,10 @@ app.get('/', function(req, res){
 
 app.post('/ajax', function(req, res){
 	console.log(req.body.b);
-	var mv = move(JSON.parse(req.body.b));
-	res.send(mv);
+	move(JSON.parse(req.body.b), (move)=>{
+			res.send(move);
+	});
+
 });
 
 app.listen(8080);
