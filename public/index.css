@@ -7,7 +7,7 @@
 .grid{
 	position: absolute;
 	left:25%;
-	top: 25%;
+	top: 30%;
 	min-width: 340px;
 	width: 50%;
 	height: 50%;
@@ -47,6 +47,7 @@ li{
 	align-items: center;
 	width:100%;
 	float: left;
+	margin: 10px 0;
 }
 
 .top-display h1{
