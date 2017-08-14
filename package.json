@@ -1,0 +1,19 @@
+{
+  "name": "minimaxtictac",
+  "version": "1.0.0",
+  "description": "tic tac toe minimax game",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apstemmer/MiniMaxTicTac.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apstemmer/MiniMaxTicTac/issues"
+  },
+  "homepage": "https://github.com/apstemmer/MiniMaxTicTac#readme"
+}
